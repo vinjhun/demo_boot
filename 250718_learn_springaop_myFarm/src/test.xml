@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<context>
+<Resource auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" initialSize="1"
+		logAbandoned="true" maxActive="100" maxIdle="2" maxWait="10000" name="jdbc/SDEDB_SIT"
+		password="db2inst1" removeAbandoned="true"
+		removeAbandonedTimeout="60" type="javax.sql.DataSource"
+		url="jdbc:db2://172.16.29.8:50000/pb_sit" username="db2inst1"
+		validationQuery="SELECT 1 FROM SYSIBM.SYSDUMMY1" />
+
+</context>

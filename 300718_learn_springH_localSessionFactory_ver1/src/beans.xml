@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   	http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+   	http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+   	http://www.springframework.org/schema/tx
+   http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+   
+   <context:component-scan base-package="com.example.*" />
+   <!-- annotation configuration -->
+   <context:annotation-config />
+   <!-- transactional annotation -->
+   <tx:annotation-driven transaction-manager="transactionManager"/>
+   <!-- aspect annotation -->
+   <aop:aspectj-autoproxy />
+   
+   <!-- create data source -->
+   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+   		<property name="driverClass">
+   			<value>com.ibm.db2.jcc.DB2Driver</value>
+   		</property>
+   		<property name="jdbcUrl">
+   			<value>jdbc:db2://172.16.29.8:50000/pb_sit</value>
+   		</property>
+   		<property name="user">
+   			<value>db2inst1</value>
+   		</property>
+   		<property name="password">
+   			<value>db2inst1</value>
+   		</property>
+   		
+   		<property name="initialPoolSize" value="1"></property>
+   		<property name="minPoolSize" value="2"></property>
+   		<property name="maxPoolSize" value="5"></property>
+   		<property name="maxIdleTime" value="2"></property>
+   </bean>
+   
+   <!-- Fucking Session Factory Bean -->
+   <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+   		<property name="dataSource" ref="dataSource"></property>
+   		
+   		<!-- Try Test comment -->
+		<!--    <property name="configLocation" value="classpath:hibernate.cfg.xml"></property> -->
+		
+   		<!-- hibernate properties -->
+   		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DB2Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+   		</property>
+   		
+   		<!-- package to scan -->
+   		<property name="packagesToScan">
+   			<list>
+   				<value>com.example.entity</value>
+   			</list>
+   		</property>
+   </bean>
+   
+   <!-- Fucking hibernate transaction manager required to register to session factory bean -->
+   <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>	
+   
+   <!-- Fucking hibernate template that query other -->
+   <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate" >
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+   <!-- In order to use transactionManager, the following required ,tx:advice,aop:advice -->
+   <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	   	<tx:attributes>
+	   		<tx:method name="*create*" />
+	   		<tx:method name="*save*" />
+	   		<tx:method name="*update*" />
+	   		<tx:method name="*delete*" />
+	   		<tx:method name="*"	read-only="true" />
+	   	</tx:attributes>
+   </tx:advice>
+   
+   <!-- advisor require pointcut ref and advisor ref -->
+   <aop:config>
+   		<aop:pointcut expression="execution (* com.example.dao.*.*(..))" id="txPointCut" />
+   		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
+   </aop:config>
+   
+   <!-- The DI for sessionFactory is not for the class, instead of hibernate dao support sessionfactory -->
+   <bean id="testDao" class="com.example.dao.TestDao">
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+   
+</beans>  

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC   
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"   
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+
+<!-- the property does not point out the suggestion available.. -->      
+<!-- config : driverClass, url, username, password, dialect--> 
+   
+<hibernate-configuration>
+ <session-factory>
+ 	<!-- Connection Properties -->
+<!--  	<property name="hibernate.connection.driver_class">com.ibm.db2.jcc.DB2Driver</property> -->
+<!--  	<property name="hibernate.connection.url">jdbc:db2://172.16.29.8:50000/FICO</property> -->
+<!--  	<property name="hibernate.connection.username">db2inst1</property> -->
+<!--  	<property name="hibernate.connection.password">db2inst1</property> -->
+ 	
+ 	<!-- require mapping? -->
+<!--  	<mapping resource="" /> -->
+ 	<mapping class="com.example.entity" />
+ </session-factory>
+</hibernate-configuration>

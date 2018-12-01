@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<title>Random Test</title>
+<!-- 		<link rel="stylesheet" type="text/css" media="all"  -->
+<!--           href="" th:href="@{static/css/bootstrap.min.css}" /> -->
+
+		<link rel="stylesheet" type="text/css" media="all" 
+		          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}" />
+		
+<!-- 		<link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap-treeview.css}" /> -->
+		                    
+	</head>
+	<body>
+		
+		
+		<div class="clearfix"></div>
+		<hr/>
+		
+		<div class="container-fluid">
+			<form id="main">
+				<div class="form-row">
+					<div class="form-group col-xs-4 col-sm-4 col-md-4">
+						<label class="control-label floating-label">Me field</label>
+						<input id="me" name="me" th:value="${me}" class="form-control"></input>
+					</div>
+				</div>
+				<button id="btnSubmit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+		
+		<div class="clearfix"></div><hr/>
+		
+		<div id="tree" class="form-group col-xs-4 col-sm-4 col-md-4">
+		</div>
+		
+		<ul>
+			<li class="list-group-item" style="border:none;cursor:pointer">
+				abc
+			</li>
+			<li class="list-group-item">
+				def
+			</li>
+		</ul>
+		
+		<script type="text/javascript" th:src="@{https://code.jquery.com/jquery-3.3.1.js}"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  		<script type="text/javascript" th:src="@{/static/js/bootstrap.js}"></script>
+<!--   		<script type="text/javascript" th:src="@{/static/js/bootstrap-treeview.js}"></script> -->
+		<script th:inline="javascript">
+			(function(){
+				console.log("I in");
+				console.log(/*[[@{/}]]*/);
+			})();
+			
+			
+			console.log("=========================================");
+			console.log("${testMap}");
+			
+			//jquery start
+			$(function(){
+				console.log("jQuery in");
+				var $form = $('#main'),
+					$submitBtn = $('#btnSubmit');
+				
+				var data = {
+						"fc" : "800",
+						"lvl" : "0",
+						"seq" : "0",
+						"subNode" : [
+							{
+								"fc" : "851",
+								"lvl" : "1",
+								"seq" : "0",
+							},
+							{
+								"fc" : "801",
+								"lvl" : "1",
+								"seq" : "0",
+								"subNode" : [
+									{
+										"fc" : "805",
+										"lvl" : "2",
+										"seq" : "0",
+										 
+									},
+									{
+										"fc" : "841",
+										"lvl" : "2",
+										"seq" : "0",
+									},
+									{
+										"fc" : "805",
+										"lvl" : "2",
+										"seq" : "1",
+									}
+								]
+							}
+						]
+					};
+				
+				
+// 				var tree = [
+// 					  {
+// 					    text: "Parent 1",
+// 					    nodes: [
+// 					      {
+// 					        text: "Child 1",
+// 					        nodes: [
+// 					          {
+// 					            text: "Grandchild 1"
+// 					          },
+// 					          {
+// 					            text: "Grandchild 2"
+// 					          }
+// 					        ]
+// 					      },
+// 					      {
+// 					        text: "Child 2"
+// 					      }
+// 					    ]
+// 					  },
+// 					  {
+// 					    text: "Parent 2"
+// 					  },
+// 					  {
+// 					    text: "Parent 3"
+// 					  },
+// 					  {
+// 					    text: "Parent 4"
+// 					  },
+// 					  {
+// 					    text: "Parent 5"
+// 					  }
+// 					];
+				
+				
+				
+// 				$('#tree').treeview({
+// 					  data: tree,         // data is not optional
+// 					  levels: 5,
+// 					  showBorder : false,
+// 					  showIcon  : true,
+// 					});
+				
+			});
+		</script>
+	</body>
+</html>

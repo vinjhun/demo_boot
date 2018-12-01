@@ -1,0 +1,44 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	 <context:annotation-config />
+	 <context:component-scan base-package="com.example"/>	
+	 
+<!-- 	 <aop:aspectj-autoproxy/> -->
+<!-- 	 <aop:config> -->
+<!-- 	 	<aop:aspect id="security" ref="security"> -->
+<!-- 	 		<aop:pointcut id="securityService" expression="execution(* com.example.main.Farmer.getSalaryPerHour(..))" /> -->
+<!-- 	 		<aop:before method="checkBeforeSecurity" pointcut-ref="securityService"/> -->
+<!-- 	 		<aop:after-returning method="checkAfterReturningSecurity" pointcut-ref="securityService"/> -->
+<!-- 	 		<aop:after-throwing method="checkAfterThrowingSecurity" pointcut-ref="securityService"/> -->
+<!-- 	 		<aop:after method="checkAfterSecurity" pointcut-ref="securityService"/> -->
+<!-- 	 		<aop:around method="checkAroundSecurity" pointcut-ref="securityService"/> -->
+<!-- 	 	</aop:aspect> -->
+<!-- 	 </aop:config> -->
+	 
+	 
+	 <context:property-placeholder ignore-unresolvable="true" location="classpath:test.properties"/>
+	 
+	 <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" destroy-method="close">
+	 	<property name="driverClassName" value="${dbcp.driver}" ></property>
+	 	<property name="url" value="${dbcp.url}"></property>
+	 	<property name="username" value="${dbcp.username}"></property>
+	 	<property name="password" value="${dbcp.password}"></property>
+	 	
+	 	<property name="initialSize" value="1"></property>
+	 	<property name="maxActive" value="10"></property>
+	 	<property name="maxIdle" value="2"></property>
+	 	<property name="minIdle" value="1"></property>
+	 </bean>
+	
+</beans>

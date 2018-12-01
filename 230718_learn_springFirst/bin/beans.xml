@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- if required to use autowired, this line of code is required for now -->
+ 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+ 
+	<bean id="boy" class="com.example_1.bean.Boy">
+	</bean>
+
+	<!-- if reference is used, the variable set would be refer to boy, and boy would having he property set -->
+	<bean id="girl" class="com.example_1.bean.Girl">
+		<constructor-arg type="java.lang.String" index="0">
+			<value>Rose</value>
+		</constructor-arg>
+		<constructor-arg type="java.lang.String" index="1">
+			<value>12</value>
+		</constructor-arg>
+		<property name="cosmeticList">
+			<list>
+				<value>Victoria Secret</value>
+				<value>Boss</value>
+			</list>
+		</property>
+		<property name="perfumeList">
+			<list>
+				<value>AAAAA BBBB</value>
+				<value>CCCC</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

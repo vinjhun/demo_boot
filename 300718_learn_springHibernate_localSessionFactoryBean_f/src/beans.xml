@@ -1,0 +1,91 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/tx
+   http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+   
+   <context:component-scan base-package="com.example.*" />
+   <context:annotation-config /> 
+   <tx:annotation-driven/>
+   
+   <!-- Datasource Required linked to sessionFactoryBean -->
+   <bean id="dataSource" name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+   		<!-- Data Source Connection Properties -->
+   		<property name="driverClass" value="com.ibm.db2.jcc.DB2Driver"></property>
+   		<property name="jdbcUrl" value="jdbc:db2://172.16.29.8:50000/FICO"></property>
+   		<property name="user" value="db2inst1"></property>
+   		<property name="password" value="db2inst1"></property>
+		
+		<!-- Only available for c3p0 -->
+		<property name="initialPoolSize" value="1"></property>  
+		<property name="minPoolSize" value="2"></property>
+		<property name="maxPoolSize" value="4"></property>
+   		<property name="maxIdleTime" value="2"></property>
+   </bean>
+   
+   <!-- //// -->
+   <!-- There is 2 type of class for spring hibernate integration :  -->
+   <!-- (1)LocalContainerEntityManagerFactoryBean - support jpa  -->
+   <!-- (2)LocalSessionFactoryBean -does not support jpa  -->
+   <!-- (3)AnnotationSessionFactoryBean -(?) -->
+   <!-- //// -->
+   
+   <!-- It has configLocation, which point to hibernate.cfg.xml -->
+   
+   <bean id="sessionFactoryBean" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+   		<!-- Ref to DataSource -->
+   		<property name="dataSource" ref="dataSource" />
+   		
+   		<!-- Ref to Configuration Location -->
+   		<property name="configLocation" value="classpath:com/example/config/hibernate.cfg.xml" />
+   		
+   		<property name="hibernateProperties">
+   			<props>
+   				<prop key="hibernate.dialect">org.hibernate.dialect.DB2Dialect</prop>
+   			</props>
+   		</property>
+   		
+   		<!-- Mapping Location? -->
+   		<property name="packagesToScan">  
+            <list>  
+                <value>com.example.entity</value>  
+            </list>  
+        </property>
+   </bean>
+   
+   <!-- template for hibernate -->
+<!--    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"> -->
+<!--    		<property name="sessionFactory" ref="sessionFactoryBean"></property> -->
+<!--    </bean> -->
+   
+   <!-- Transaction Manager -->
+<!--    <bean id="tx" class="org.springframework.orm.hibernate5.HibernateTransactionManager" > -->
+<!--    		<property name="sessionFactory" ref="sessionFactoryBean"></property> -->
+<!--    </bean> -->
+   
+   <!-- AOP Config -->
+<!--    <aop:config> -->
+<!--    		<aop:pointcut expression="execution(* com.example.hibernate.*(..))" id="txCut"/> -->
+<!--    		<aop:advisor advice-ref="txCut" pointcut="txAdvice"/> -->
+<!--    </aop:config> -->
+   
+   <!-- Transactional Layer -->
+<!--    <tx:advice id="txAdvice" transaction-manager="tx"> -->
+<!--    		<tx:attributes> -->
+<!--    			<tx:method name="find"/> -->
+<!--    		</tx:attributes> -->
+<!--    </tx:advice> -->
+   
+<!--    <bean id="person" class="com.example.hibernate.Person"></bean> -->
+   
+ </beans>  
